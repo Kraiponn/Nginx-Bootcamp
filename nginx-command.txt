@@ -91,7 +91,42 @@ Pattern in nginx.conf file. (/etc/nginx/nginx.conf)
                           Nginx Load Balancer
 ** Round Robin
   # No load balancing method is specified for round robin
+  # ใช้การแสกนไปทีละ Server 1,2..n-1 และสามารถตั้งค่าให้ Server ตัวไหนทำงานเยอะสุดได้ด้วย
+  - weight=value : กำหนดระดับการทำงาน ยิ่งค่า value มากยิ่งทำงานมาก
+  - max_fails=value : กำหนดจำนวนครั้งที่เฟลจนถึงครั้งที่ value จากนั้นมันก็จะไปเรียกใช้ Server อื่น
+  - fail_timeout=value : เวลาที่ใช้ในการเรียกใช้งานหน่วย second เมื่อนานจนถึงค่าที่กำหนดจะส่งค่า fail_timeout กลับไป
+
   - upstream backend {
-    server backend1.example.com;
+    server backend1.example.com weight=4 max_fails=3 fail_timeout=15s;
     server backend2.example.com;
-  }                         
+  }   
+
+** Least connections
+  # เช็คว่า Server ไหนถูกเรียกใช้งานน้อยสุดก็จะเรียกใช้ Server นั้น
+    - least_conn;
+    Ex:                       
+        - upstream backend {
+            least_conn;
+            server backend1.example.com;
+            server backend2.example.com;
+          }
+
+** By IP Hash
+ # ถ้าเครื่อง Client เดิมเรียกใช้งานซ้ำๆ ก็จะยังเรียกไปยังเครื่อง Server เดิมเพราะจะยึด IP จาก client เป็นตัวกำหนด
+    - ip_hash;
+    Ex:                       
+        - upstream backend {
+            ip_hash;
+            server backend1.example.com;
+            server backend2.example.com;
+          }
+
+** By Hash
+ # เป็นการใช้ URI ในการเลือกเครื่องปลายทาง
+    - hash;
+    Ex:                       
+        - upstream backend {
+            hash $request_uri;
+            server backend1.example.com;
+            server backend2.example.com;
+          }
