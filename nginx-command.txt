@@ -82,4 +82,16 @@ Pattern in nginx.conf file. (/etc/nginx/nginx.conf)
  Max for the client accept/receive a response
  - send_timeout 10
 
- 
+************************************************************************
+                          Nginx Reverse Proxy
+# Example image: olanlab/json-server
+  - proxy_pass <url>
+
+************************************************************************
+                          Nginx Load Balancer
+** Round Robin
+  # No load balancing method is specified for round robin
+  - upstream backend {
+    server backend1.example.com;
+    server backend2.example.com;
+  }                         
