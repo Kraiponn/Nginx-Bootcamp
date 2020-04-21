@@ -1,10 +1,19 @@
+~
 - apt-get update
 - apt-get install <app>
 - nano
 - vim
 - Config file location: /etc/nginx/nginx.conf
 - index.html location : /usr/share/nginx/html/index.html
-- Access log          : /var/log/nginx/access.log
+- Access log          : /var/log/nginx/access.- apt-get install php-fpm
+
+- service --status-all : list services
+- service php7.2-fpm status
+- service php7.2-fpm start
+- service php7.2-fpm stop
+- service php7.2-fpm restart
+
+
 ************************************************************************
                           Bash Command
 - ls : Display all folder in current path
